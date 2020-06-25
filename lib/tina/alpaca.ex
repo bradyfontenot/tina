@@ -18,9 +18,6 @@ defmodule Tina.Alpaca do
   defp extract_key(key), do: key
 
   def get_data(endpoint, struct) do
-    # get("https://paper-api.alpaca.markets/v2/#{endpoint}")
-    IO.inspect(@apca_api_base_url)
-
     get(endpoint)
     |> validate()
     |> format_output(struct)
@@ -38,9 +35,26 @@ defmodule Tina.Alpaca do
     |> format_output(struct)
   end
 
-  def post_data(endpoint) do
-    get(endpoint)
+  ####### TODO #########
+  # finish / check functionality
+  def post_data(endpoint, body) do
+    post(endpoint, body)
+    |> validate()
   end
+
+  ####### TODO #########
+  # finish / check functionality
+  def delete_data(endpoint) do
+    delete(endpoint)
+  end
+
+  ####### TODO #########
+  # finish / check functionality
+  def delete_data(endpoint, body) do
+    delete(endpoint, body)
+  end
+
+  # def post_data(endpoint, body, query_params)
 
   defp validate(response) do
     case response do
@@ -49,6 +63,9 @@ defmodule Tina.Alpaca do
 
       {:ok, %{status: status}} ->
         {:error, status}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
