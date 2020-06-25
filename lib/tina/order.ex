@@ -1,7 +1,6 @@
-defmodule Tina.Orders do
+defmodule Tina.Order do
   use Tesla
   alias Tina.Alpaca
-  alias Tina.Helpers
 
   @endpoint "orders"
 
@@ -38,28 +37,28 @@ defmodule Tina.Orders do
 
   def get_all() do
     # IO.puts(Alpaca.get_data("oops"))
-    Alpaca.get_data(@endpoint, [status: "all"], struct(Tina.Orders))
+    Alpaca.get_data(@endpoint, [status: "all"], struct(Tina.Order))
   end
 
   def get_open() do
-    Alpaca.get_data(@endpoint, [status: "open"], struct(Tina.Orders))
+    Alpaca.get_data(@endpoint, [status: "open"], struct(Tina.Order))
   end
 
   def get_closed() do
-    Alpaca.get_data(@endpoint, [status: "closed"], struct(Tina.Orders))
+    Alpaca.get_data(@endpoint, [status: "closed"], struct(Tina.Order))
   end
 
   def get_orders_filtered_by(query_params) do
-    Alpaca.get_data(@endpoint, query_params, struct(Tina.Orders))
+    Alpaca.get_data(@endpoint, query_params, struct(Tina.Order))
   end
 
   def get_order_by_order_id(order_id) do
     path = "#{@endpoint}/#{order_id}"
-    Alpaca.get_data_by_id(path, struct(Tina.Orders))
+    Alpaca.get_data_by_id(path, struct(Tina.Order))
   end
 
   def get_order_by_client_id(client_id) do
-    Alpaca.get_data(@endpoint, [by_client_order_id: client_id], struct(Tina.Orders))
+    Alpaca.get_data(@endpoint, [by_client_order_id: client_id], struct(Tina.Order))
   end
 
   @doc """
@@ -75,17 +74,30 @@ defmodule Tina.Orders do
         stop_price,
         opts \\ []
       ) do
+        body = %{
+          symbol: symbol,
+          qty: qty,
+          side: side,
+          type: type,
+          time_in_force: time_in_force,
+          limit_price: limit_price,
+          stop_price: stop_price,
+        }
+
+        Alpaca.post_data(@endpoint, body)
   end
 
-  def submit_buy_limit(symbol, qty, time_in_force, limit_price, stop_price, opts \\ []) do
+  def submit_buy_limit(symbol, qty, time_in_force, limit_price, opts \\ []) do
     body = %{
       side: :buy,
       type: :limit,
       symbol: symbol,
       qty: qty,
       time_in_force: time_in_force,
-      limit_price: limit_price
+      limit_price: limit_price,
     }
+
+    Alpaca.post_data(@endpoint, body)
   end
 
   def submit_sell_limit() do
