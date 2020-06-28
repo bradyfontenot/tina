@@ -4,6 +4,7 @@ defmodule Tina.Account do
 
   @account_endpoint "account"
   @activity_endpoint "account/activities"
+  @config_endpoint "account/configuration"
 
   @doc """
   Account struct matches k,v from /account endpoint
