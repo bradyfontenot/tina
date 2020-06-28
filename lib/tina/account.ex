@@ -172,4 +172,21 @@ defmodule Tina.Account do
   def update_config(params) do
     Alpaca.patch_data(@config_endpoint, params, struct(Config))
   end
+  def get_portfolio_history() do
+    Alpaca.get_data(@portfolio_history_endpoint, struct(PortfolioHistory))
+  end
+
+  @doc """
+    query_params must be supplied as keyword list
+    valid params:
+      period: <string>
+      timeframe: <string>
+      date_start: <string> "YYYY-MM-DD" (omitted in Alpaca Docs)
+      date_end: <string> "YYYY-MM-DD"
+      extended_hours: <bool>
+  """
+
+  def get_port_history_filtered_by(query_params) do
+    Alpaca.get_data(@portfolio_history_endpoint, query_params, struct(PortfolioHistory))
+  end
 end
