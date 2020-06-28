@@ -4,7 +4,8 @@ defmodule Tina.Account do
 
   @account_endpoint "account"
   @activity_endpoint "account/activities"
-  @config_endpoint "account/configuration"
+  @config_endpoint "account/configurations"
+  @portfolio_history_endpoint "account/portfolio/history"
 
   @doc """
   Account struct matches k,v from /account endpoint
@@ -163,15 +164,18 @@ defmodule Tina.Account do
   def get_activity(activity_type) do
     Alpaca.get_data(@activity_endpoint, activity_type: activity_type)
   end
+
   def get_config() do
     Alpaca.get_data(@config_endpoint, struct(Config))
   end
+
   @doc """
     params supplied as map
   """
   def update_config(params) do
     Alpaca.patch_data(@config_endpoint, params, struct(Config))
   end
+
   def get_portfolio_history() do
     Alpaca.get_data(@portfolio_history_endpoint, struct(PortfolioHistory))
   end
