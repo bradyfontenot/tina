@@ -129,10 +129,11 @@ defmodule Tina.Account do
 
   defmodule Config do
     defstruct [
-      :dtpb_check,
+      :dtbp_check,
       :no_shorting,
       :suspend_trade,
-      :trade_confirm_email
+      :trade_confirm_email,
+      :pdt_check
     ]
   end
 
