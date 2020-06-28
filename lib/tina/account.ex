@@ -126,6 +126,26 @@ defmodule Tina.Account do
           }
   end
 
+  defmodule Config do
+    defstruct [
+      :dtpb_check,
+      :no_shorting,
+      :suspend_trade,
+      :trade_confirm_email
+    ]
+  end
+
+  defmodule PortfolioHistory do
+    defstruct [
+      :timestamp,
+      :equity,
+      :profit_loss,
+      :profit_loss_pct,
+      :base_value,
+      :timeframe
+    ]
+  end
+
   def get_account() do
     Alpaca.get_data(@account_endpoint, struct(Tina.Account))
   end
