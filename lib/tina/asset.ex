@@ -1,4 +1,6 @@
 defmodule Tina.Asset do
+  alias Tina.Alpaca
+
   @endpoint "assets"
 
   defstruct [
@@ -14,7 +16,7 @@ defmodule Tina.Asset do
   ]
 
   def get_assets() do
-    Alpaca.get_data(@endpoint, struct(Tina.Assets))
+    Alpaca.get_data(@endpoint, struct(Tina.Asset))
   end
 
   @doc """
@@ -22,15 +24,16 @@ defmodule Tina.Asset do
     valid keywords: :status, :asset_class
   """
   def get_assets_filtered_by(query_params) do
-    Alpaca.get_data(@endpoint, query_params, struct(Tina.Assets))
+    Alpaca.get_data(@endpoint, query_params, struct(Tina.Asset))
   end
 
   def get_asset_by_id(id) do
-    Alpaca.get_data(@endpoint, [id: id], struct(Tina.Assets))
+    path = "#{@endpoint}/#{id}"
+    Alpaca.get_data(path, struct(Tina.Asset))
   end
 
   def get_asset_by_symbol(symbol) do
     path = "#{@endpoint}/#{symbol}"
-    Alpaca.get_data(path, struct(Tina.Assets))
+    Alpaca.get_data(path, struct(Tina.Asset))
   end
 end
