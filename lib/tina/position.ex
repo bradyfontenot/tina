@@ -1,4 +1,6 @@
 defmodule Tina.Position do
+  alias Tina.Alpaca
+
   @endpoint "positions"
 
   defstruct [
@@ -20,6 +22,9 @@ defmodule Tina.Position do
     :change_today
   ]
 
+  # TODO:
+  # if no open positions return {:ok, none} or similar instead
+  # of {:ok, []}
   def get_open_positions() do
     Alpaca.get_data(@endpoint, struct(Tina.Position))
   end
