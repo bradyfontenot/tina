@@ -163,4 +163,13 @@ defmodule Tina.Account do
   def get_activity(activity_type) do
     Alpaca.get_data(@activity_endpoint, activity_type: activity_type)
   end
+  def get_config() do
+    Alpaca.get_data(@config_endpoint, struct(Config))
+  end
+  @doc """
+    params supplied as map
+  """
+  def update_config(params) do
+    Alpaca.patch_data(@config_endpoint, params, struct(Config))
+  end
 end
