@@ -52,7 +52,7 @@ defmodule Tina.Order do
     Alpaca.get_data(@endpoint, query_params, struct(Tina.Order))
   end
 
-  def get_order_by_order_id(order_id) do
+  def get_order_by_id(order_id) do
     path = "#{@endpoint}/#{order_id}"
     Alpaca.get_data_by_id(path, struct(Tina.Order))
   end
