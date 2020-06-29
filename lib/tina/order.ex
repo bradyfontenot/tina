@@ -35,7 +35,7 @@ defmodule Tina.Order do
     :updated_at
   ]
 
-  def get_all() do
+  def list_all() do
     # IO.puts(Alpaca.get_data("oops"))
     Alpaca.get_data(@endpoint, [status: "all"], struct(Tina.Order))
   end
