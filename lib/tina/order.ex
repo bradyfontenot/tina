@@ -62,7 +62,15 @@ defmodule Tina.Order do
   end
 
   @doc """
-    Options: [extended_hours, client_order_id, order_class, take_profit, stop_loss]
+    see Alpaca Documentation for required, optional, and dependent params
+    for order submission.
+    https://alpaca.markets/docs/api-documentation/api-v2/orders/
+
+    You do not need to pass a map w/ all parameters shown in the typespec. Order will succeed
+    with minimum required params, and requisite dependent params. If unsuccessful
+    function will return {:error, %{msg: string, status: int}} where msg is the reason for
+    order failure and status is the http code.
+
   """
 
   @type order_params :: %{
