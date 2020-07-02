@@ -1,5 +1,6 @@
 defmodule Tina.Position do
   alias Tina.Alpaca
+  alias Tina.Order
 
   @endpoint "positions"
 
@@ -35,7 +36,7 @@ defmodule Tina.Position do
   end
 
   def close_all_positions() do
-    Alpaca.delete_data(@endpoint)
+    Alpaca.delete_data(@endpoint, struct(Order))
   end
 
   def close_position_by_symbol(symbol) do
