@@ -65,15 +65,22 @@ defmodule Tina.Alpaca do
     delete(endpoint, body)
   end
 
-  # def post_data(endpoint, body, query_params)
-
+  @spec validate(tuple()) :: tuple()
   defp validate(response) do
+    {_, env} = response
+    status = env.status
+    # Temporary Inspection
+    IO.inspect(env)
+
     case response do
-      {:ok, %{status: 200}} = {:ok, response} ->
+      # TO Be REMOVED - temp for development
+      # {:ok, %{status: 200}} = {:ok, response}  when status in 200..399 ->
+      {:ok, response} when status in 200..399 ->
         {:ok, response}
 
       {:ok, %{status: status}} ->
-        {:error, status}
+        msg = env.body["message"]
+        {:error, %{status: status, msg: msg}}
 
       {:error, reason} ->
         {:error, reason}
