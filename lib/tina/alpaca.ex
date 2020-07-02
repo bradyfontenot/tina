@@ -42,8 +42,19 @@ defmodule Tina.Alpaca do
     |> validate()
   end
 
-  ####### TODO #########
-  # finish / check functionality
+  def put_data(endoint, body, struct) do
+    put(endoint, body)
+    |> validate()
+    |> format_output(struct)
+  end
+
+  @spec patch_data(:atom, map(), struct()) :: tuple()
+  def patch_data(endpoint, body, struct) do
+    patch(endpoint, body)
+    |> validate()
+    |> format_output(struct)
+  end
+
   def delete_data(endpoint) do
     delete(endpoint)
   end
