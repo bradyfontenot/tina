@@ -93,19 +93,19 @@ defmodule Tina.Order do
     Alpaca.post_data(@endpoint, order_params, struct(Tina.Order))
   end
 
-  def submit_buy_limit(symbol, qty, time_in_force, limit_price, opts \\ []) do
-    body = %{
-      side: :buy,
-      type: :limit,
-      symbol: symbol,
-      qty: qty,
-      time_in_force: time_in_force,
-      limit_price: limit_price,
-    }
-
-    Alpaca.post_data(@endpoint, body)
+  # TODO: change spec to match body params from docs
+  # @spec replace_order(id, order_params()) :: {:ok, %Tina.Order{}} | {:error, map()}
+  def replace_order(id, order_params) do
+    path = "#{@endpoint}/#{id}"
+    Alpaca.patch_data(path, order_params, struct(Tina.Order))
   end
 
-  def submit_sell_limit() do
+  def cancel_order(id) do
+    path = "#{@endpoint}/#{id}"
+    Alpaca.delete_data(path)
+  end
+
+  def cancel_all_orders() do
+    Alpaca.delete(@endpoint)
   end
 end
