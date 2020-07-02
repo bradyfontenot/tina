@@ -84,7 +84,9 @@ defmodule Tina.Order do
           stop_price: stop_price,
         }
 
-        Alpaca.post_data(@endpoint, body)
+  @spec submit_order(order_params()) :: {:ok, %Tina.Order{}} | {:error, map()}
+  def submit_order(order_params) do
+    Alpaca.post_data(@endpoint, order_params, struct(Tina.Order))
   end
 
   def submit_buy_limit(symbol, qty, time_in_force, limit_price, opts \\ []) do
