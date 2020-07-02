@@ -15,32 +15,44 @@ defmodule Tina.Alpaca do
 
   plug(Tesla.Middleware.JSON, decode: &Jason.decode/1, engine_opts: [keys: :atoms])
 
+  @spec extract_key(:atom) :: :atom
   defp extract_key(key), do: key
 
+  # Temporary for inspecting response objects / problem solving
+  # def get_data(endpoint) do
+  #   get(endpoint)
+  # end
+
+  @spec get_data(:atom, struct()) :: tuple()
   def get_data(endpoint, struct) do
     get(endpoint)
     |> validate()
     |> format_output(struct)
   end
 
+  @spec get_data(:atom, [key: any()], struct()) :: tuple()
   def get_data(endpoint, query_params, struct) do
     get(endpoint, query: query_params)
     |> validate()
     |> format_output(struct)
   end
 
+  @spec get_data_by_id(:atom, struct()) :: tuple()
   def get_data_by_id(endpoint, struct) do
     get(endpoint)
     |> validate()
     |> format_output(struct)
   end
 
-  ####### TODO #########
-  # finish / check functionality
-  def post_data(endpoint, body) do
-    post(endpoint, body)
+  @spec post_data(:atom, map(), struct()) :: tuple()
+  def post_data(endpoint, body, struct) do
+    # Temporary inspection
+    IO.inspect(post(endpoint, body))
     |> validate()
+    |> format_output(struct)
   end
+
+  # def post_data(endpoint, body, query_params)
 
   def put_data(endoint, body, struct) do
     put(endoint, body)
