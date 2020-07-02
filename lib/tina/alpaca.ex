@@ -86,7 +86,8 @@ defmodule Tina.Alpaca do
     end
   end
 
-  defp format_output({:error, _status} = {:error, status}, struct) do
+  @spec format_output(tuple(), struct()) :: tuple()
+  defp format_output({:error, _status} = {:error, status}, _struct) do
     {:error, status}
   end
 end
