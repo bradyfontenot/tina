@@ -87,6 +87,7 @@ defmodule Tina.Alpaca do
     end
   end
 
+  @spec format_output(tuple(), struct()) :: tuple()
   defp format_output({:ok, _response} = {:ok, response}, struct) do
     case is_map(response.body) do
       true ->
