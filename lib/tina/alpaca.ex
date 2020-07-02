@@ -57,12 +57,21 @@ defmodule Tina.Alpaca do
 
   def delete_data(endpoint) do
     delete(endpoint)
+    |> validate()
+    # |> format_output(struct)
   end
 
-  ####### TODO #########
-  # finish / check functionality
-  def delete_data(endpoint, body) do
+  @spec delete_data(:atom, struct()) :: tuple()
+  def delete_data(endpoint, struct) when is_struct(struct) do
+    delete(endpoint)
+    |> validate()
+    |> format_output(struct)
+  end
+
+  @spec delete_data(:atom, map()) :: tuple()
+  def delete_data(endpoint, body) when is_map(body) do
     delete(endpoint, body)
+    |> validate()
   end
 
   @spec validate(tuple()) :: tuple()
