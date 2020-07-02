@@ -15,7 +15,7 @@ defmodule Tina.Asset do
     :easy_to_borrow
   ]
 
-  def get_assets() do
+  def list_all() do
     Alpaca.get_data(@endpoint, struct(Tina.Asset))
   end
 
