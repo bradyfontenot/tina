@@ -64,24 +64,20 @@ defmodule Tina.Order do
   @doc """
     Options: [extended_hours, client_order_id, order_class, take_profit, stop_loss]
   """
-  def submit_custom_order(
-        symbol,
-        qty,
-        side,
-        type,
-        time_in_force,
-        limit_price,
-        stop_price,
-        opts \\ []
-      ) do
-        body = %{
-          symbol: symbol,
-          qty: qty,
-          side: side,
-          type: type,
-          time_in_force: time_in_force,
-          limit_price: limit_price,
-          stop_price: stop_price,
+
+  @type order_params :: %{
+          symbol: String.t(),
+          qty: integer(),
+          side: String.t(),
+          type: String.t(),
+          time_in_force: String.t(),
+          limit_price: float(),
+          stop_price: float() | nil,
+          extended_hours: boolean(),
+          client_order_id: String.t() | nil,
+          order_class: String.t() | nil,
+          take_profit: map(),
+          stop_loss: map()
         }
 
   @spec submit_order(order_params()) :: {:ok, %Tina.Order{}} | {:error, map()}
