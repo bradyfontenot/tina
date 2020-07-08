@@ -58,10 +58,21 @@ defmodule Tina.Stream do
     WebSockex.send_frame(get_pid(), {:text, channels})
   end
 
+  def sub_trade_updates() do
+    {:ok, channel} =
+      %{
+        action: "listen",
+        data: %{streams: ["channel_list"]}
+      }
+      |> Jason.encode()
+
+    WebSockex.send_frame(get_pid(), {:text, channel})
+  end
+
   defp get_pid(), do: Process.whereis(Tina.Stream)
 
 end
 
-# {"action": "listen", "data": {"streams": ["TQ.SPY", "AM.SPY"]}}
-
-# {"action": "authenticate", "data": {"key_id": "PKLVCMLTKRKJUVFQZSHC", "secret_key": "q7ZK/IxHaMZF2PiAGHJ4Y/wsSGwoxHhBxmCUNTum"}}
+# TODO
+# subscribe symbol
+# unsubscribe symbol
