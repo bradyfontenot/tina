@@ -59,7 +59,7 @@ defmodule Tina.Watchlist do
   def add_asset(watchlist_id, symbol) do
     path = "#{@endpoint}/#{watchlist_id}"
     params = %{symbol: symbol}
-    Alpaca.post_data(path,params, struct(Tina.Watchlist))
+    Alpaca.post_data(path, params, struct(Tina.Watchlist))
   end
 
   @spec delete_asset(String.t(), map()) :: tuple()
@@ -73,5 +73,4 @@ defmodule Tina.Watchlist do
     path = "#{@endpoint}/#{id}"
     Alpaca.delete_data(path)
   end
-
 end
