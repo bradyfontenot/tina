@@ -5,6 +5,7 @@ defmodule Tina.Alpaca do
   @apca_api_key_id Application.get_env(:tina, :apca_api_key_id)
   @apca_api_secret_key Application.get_env(:tina, :apca_api_secret_key)
   @apca_api_base_url Application.get_env(:tina, :apca_api_base_url)
+  @apca_api_data_url Application.get_env(:tina, :apca_api_data_url)
 
   plug(Tesla.Middleware.BaseUrl, extract_key(@apca_api_base_url))
 
@@ -18,7 +19,7 @@ defmodule Tina.Alpaca do
   @spec extract_key(:atom) :: :atom
   defp extract_key(key), do: key
 
-  # Temporary for inspecting response objects / problem solving
+  # Temporary for inspecting response objects / debugging
   # def get_data(endpoint) do
   #   get(endpoint)
   # end
@@ -70,6 +71,7 @@ defmodule Tina.Alpaca do
   def delete_data(endpoint) do
     delete(endpoint)
     |> validate()
+
     # |> format_output(struct)
   end
 
