@@ -25,7 +25,8 @@ defmodule Tina.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:hackney, "~> 1.16.0"},
       {:jason, ">= 1.0.0"},
-      {:tesla, "~> 1.3.0"}
+      {:tesla, "~> 1.3.0"},
+      {:websockex, "~> 0.4.2"}
     ]
   end
 end
