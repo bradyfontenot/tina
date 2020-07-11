@@ -3,6 +3,15 @@ defmodule Tina.Watchlist do
 
   @endpoint "watchlists"
 
+  @type t :: %__MODULE__{
+          account_id: String.t(),
+          assets: list(map()),
+          created_at: String.t(),
+          id: String.t(),
+          name: String.t(),
+          updated_at: String.t()
+        }
+
   defstruct [
     :account_id,
     :assets,
