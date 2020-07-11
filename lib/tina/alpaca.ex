@@ -100,17 +100,17 @@ defmodule Tina.Alpaca do
   defp format_output({:ok, _response} = {:ok, response}, struct) do
     case is_map(response.body) do
       true ->
-        data = Helpers.to_struct(response.body, struct)
+        body = Helpers.to_struct(response.body, struct)
 
-        {:ok, data}
+        {:ok, body}
 
       false ->
-        data =
+        body =
           Enum.into(response.body, [], fn item ->
             Helpers.to_struct(item, struct)
           end)
 
-        {:ok, data}
+        {:ok, body}
     end
   end
 
