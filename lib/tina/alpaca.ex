@@ -24,23 +24,9 @@ defmodule Tina.Alpaca do
   #   get(endpoint)
   # end
 
-  @spec get_data(:atom, struct()) :: tuple()
-  def get_data(endpoint, struct) do
-    get(endpoint)
-    |> validate()
-    |> format_output(struct)
-  end
-
   @spec get_data(:atom, [key: any()], struct()) :: tuple()
-  def get_data(endpoint, query_params, struct) do
+  def get_data(endpoint, query_params \\ [], struct) do
     get(endpoint, query: query_params)
-    |> validate()
-    |> format_output(struct)
-  end
-
-  @spec get_data_by_id(:atom, struct()) :: tuple()
-  def get_data_by_id(endpoint, struct) do
-    get(endpoint)
     |> validate()
     |> format_output(struct)
   end
