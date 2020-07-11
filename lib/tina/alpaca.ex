@@ -7,21 +7,36 @@ defmodule Tina.Alpaca do
   @apca_api_base_url Application.get_env(:tina, :apca_api_base_url)
   @apca_api_data_url Application.get_env(:tina, :apca_api_data_url)
 
-  plug(Tesla.Middleware.BaseUrl, extract_key(@apca_api_base_url))
+  plug(Tesla.Middleware.JSON, decode: &Jason.decode/1, engine_opts: [keys: :atoms])
+  plug(Tesla.Middleware.BaseUrl, @apca_api_base_url)
 
   plug(Tesla.Middleware.Headers, [
-    {"APCA-API-KEY-ID", extract_key(@apca_api_key_id)},
-    {"APCA-API-SECRET-KEY", extract_key(@apca_api_secret_key)}
+    {"APCA-API-KEY-ID", @apca_api_key_id},
+    {"APCA-API-SECRET-KEY", @apca_api_secret_key}
   ])
 
-  plug(Tesla.Middleware.JSON, decode: &Jason.decode/1, engine_opts: [keys: :atoms])
+  def api_key_id(),
+    do: Application.get_env(:tina, :apca_api_key_id)
 
-  @spec extract_key(:atom) :: :atom
-  defp extract_key(key), do: key
+  def api_secret_key(),
+    do: Application.get_env(:tina, :apca_api_secret_key)
+
+  def api_v2_url(),
+    do: "https://paper-api.alpaca.markets/v2/"
+
+  def api_data_url(),
+    do: "https://data.alpaca.markets/v1"
+
+  def api_stream_url(),
+    do: "wss://data.alpaca.markets/stream"
+
+  # TO BE REMOVED!
+  # @spec extract_key(:atom) :: :atom
+  # defp extract_key(key), do: key
 
   # Temporary for inspecting response objects / debugging
-  # def get_data(endpoint) do
-  #   get(endpoint)
+  # def get_data(endpoint, query) do
+  #   get(endpoint, query: query)
   # end
 
   @spec get_data(:atom, [key: any()], struct()) :: tuple()
