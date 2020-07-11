@@ -7,38 +7,6 @@ defmodule Tina.Account do
   @config_endpoint "account/configurations"
   @portfolio_history_endpoint "account/portfolio/history"
 
-  @doc """
-  Account struct matches k,v from /account endpoint
-  """
-  defstruct [
-    :account_blocked,
-    :account_number,
-    :buying_power,
-    :cash,
-    :created_at,
-    :currency,
-    :daytrade_count,
-    :daytrading_buying_power,
-    :equity,
-    :id,
-    :initial_margin,
-    :last_equity,
-    :last_maintenance_margin,
-    :long_market_value,
-    :maintenance_margin,
-    :multiplier,
-    :pattern_day_trader,
-    :portfolio_value,
-    :regt_buying_power,
-    :short_market_value,
-    :shorting_enabled,
-    :sma,
-    :status,
-    :trade_suspended_by_user,
-    :trading_blocked,
-    :transfers_blocked
-  ]
-
   @type t :: %__MODULE__{
           account_blocked: boolean,
           account_number: String.t(),
@@ -68,11 +36,56 @@ defmodule Tina.Account do
           transfers_blocked: boolean
         }
 
+  defstruct [
+    :account_blocked,
+    :account_number,
+    :buying_power,
+    :cash,
+    :created_at,
+    :currency,
+    :daytrade_count,
+    :daytrading_buying_power,
+    :equity,
+    :id,
+    :initial_margin,
+    :last_equity,
+    :last_maintenance_margin,
+    :long_market_value,
+    :maintenance_margin,
+    :multiplier,
+    :pattern_day_trader,
+    :portfolio_value,
+    :regt_buying_power,
+    :short_market_value,
+    :shorting_enabled,
+    :sma,
+    :status,
+    :trade_suspended_by_user,
+    :trading_blocked,
+    :transfers_blocked
+  ]
+
   defmodule TradeActivity do
     @doc """
-     TradeActivity struct matches json object structure returned
-     from /account/activity_type endpoint for TradeActivity types.
+    TradeActivity struct matches json object structure returned
+    from /account/activity_type endpoint for TradeActivity types.
+
     """
+
+    @type t :: %__MODULE__{
+            activity_type: String.t(),
+            id: String.t(),
+            cum_qty: String.t(),
+            leaves_qty: String.t(),
+            price: String.t(),
+            qty: String.t(),
+            side: String.t(),
+            symbol: String.t(),
+            transaction_time: String.t(),
+            order_id: String.t(),
+            type: String.t()
+          }
+
     defstruct [
       :activity_type,
       :id,
@@ -86,20 +99,6 @@ defmodule Tina.Account do
       :order_id,
       :type
     ]
-
-    @type t :: %Tina.Account.TradeActivity{
-            activity_type: String.t(),
-            id: String.t(),
-            cum_qty: String.t(),
-            leaves_qty: String.t(),
-            price: String.t(),
-            qty: String.t(),
-            side: String.t(),
-            symbol: String.t(),
-            transaction_time: String.t(),
-            order_id: String.t(),
-            type: String.t()
-          }
   end
 
   defmodule NonTradeActivity do
@@ -107,6 +106,17 @@ defmodule Tina.Account do
      NonTradeActivity struct matches json object structure returned
      from /account/activity_type endpoint for NonTradeActivity types.
     """
+
+    @type t :: %__MODULE__{
+            activity_type: String.t(),
+            id: String.t(),
+            date: String.t(),
+            net_amount: String.t(),
+            symbol: String.t(),
+            qty: String.t(),
+            per_share_amount: String.t()
+          }
+
     defstruct [
       :activity_type,
       :id,
@@ -116,19 +126,18 @@ defmodule Tina.Account do
       :qty,
       :per_share_amount
     ]
-
-    @type t :: %Tina.Account.NonTradeActivity{
-            activity_type: String.t(),
-            id: String.t(),
-            date: String.t(),
-            net_amount: String.t(),
-            symbol: String.t(),
-            qty: String.t(),
-            per_share_amount: String.t()
-          }
   end
 
   defmodule Config do
+    @type t :: %__MODULE__{
+            dtbp_check: String.t(),
+            no_shorting: boolean(),
+            suspend_trade: boolean(),
+            trade_confirm_email: String.t(),
+            # not documented in Alpaca docs
+            pdt_check: String.t()
+          }
+
     defstruct [
       :dtbp_check,
       :no_shorting,
@@ -139,21 +148,32 @@ defmodule Tina.Account do
   end
 
   defmodule PortfolioHistory do
+    @type t :: %__MODULE__{
+            base_value: integer(),
+            equity: list(float()),
+            profit_loss: list(float()),
+            profit_loss_pct: list(float()),
+            timeframe: String.t(),
+            timestamp: list(integer())
+          }
+
     defstruct [
-      :timestamp,
+      :base_value,
       :equity,
       :profit_loss,
       :profit_loss_pct,
-      :base_value,
-      :timeframe
+      :timeframe,
+      :timestamp
     ]
   end
 
-  def get_account() do
+  @spec get() :: tuple()
+  def get() do
     Alpaca.get_data(@account_endpoint, struct(Tina.Account))
   end
 
-  def get_all_activity() do
+  @spec get_activity() :: tuple()
+  def get_activity() do
     Alpaca.get_data(@activity_endpoint)
   end
 
@@ -161,10 +181,12 @@ defmodule Tina.Account do
     retrieving a single activity type: activity_type = "activity"
     retrieving multiple types in one call:  activity_type = "type1, type2, type3, ..."
   """
-  def get_activity(activity_type) do
+  @spec get_activity_by_type(String.t()) :: tuple()
+  def get_activity_by_type(activity_type) do
     Alpaca.get_data(@activity_endpoint, activity_type: activity_type)
   end
 
+  @spec get_config() :: tuple()
   def get_config() do
     Alpaca.get_data(@config_endpoint, struct(Config))
   end
@@ -172,12 +194,9 @@ defmodule Tina.Account do
   @doc """
     params supplied as map
   """
+  @spec update_config(map()) :: tuple()
   def update_config(params) do
     Alpaca.patch_data(@config_endpoint, params, struct(Config))
-  end
-
-  def get_portfolio_history() do
-    Alpaca.get_data(@portfolio_history_endpoint, struct(PortfolioHistory))
   end
 
   @doc """
@@ -190,7 +209,9 @@ defmodule Tina.Account do
       extended_hours: <bool>
   """
 
-  def get_port_history_filtered_by(query_params) do
-    Alpaca.get_data(@portfolio_history_endpoint, query_params, struct(PortfolioHistory))
+  @spec get_portfolio_history() :: tuple()
+  def get_portfolio_history(query \\ []) do
+    Alpaca.get_data(@portfolio_history_endpoint, query, struct(PortfolioHistory))
   end
+
 end
