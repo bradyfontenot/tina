@@ -1,18 +1,5 @@
 defmodule Tina do
   @moduledoc """
-  Documentation for `Tina`.
+  A wrapper for Alpaca Markets API, written in Elixir.
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Tina.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
