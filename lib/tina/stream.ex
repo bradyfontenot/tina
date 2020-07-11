@@ -1,26 +1,25 @@
 defmodule Tina.Stream do
   use WebSockex
-
-  @apca_api_key_id Application.get_env(:tina, :apca_api_key_id)
-  @apca_api_secret_key Application.get_env(:tina, :apca_api_secret_key)
-  @apca_api_stream_url Application.get_env(:tina, :apca_api_stream_url)
+  alias Tina.Alpaca
 
   def open_stream() do
-    {:ok, pid} = WebSockex.start_link(@apca_api_stream_url, __MODULE__, :state)
+    {:ok, pid} = WebSockex.start_link(Alpaca.api_stream_url(), __MODULE__, :state)
     authenticate(pid)
     Process.register(pid, Tina.Stream)
     pid
   end
 
-  def handle_connect(conn, state) do
+  @impl true
+  def handle_connect(_conn, state) do
     IO.puts("Connected!")
     {:ok, state}
   end
 
-  def handle_frame(frame = {:text, msg}, state) do
+  @impl true
+  def handle_frame(_frame = {_, msg}, state) do
     msg
-    |> Jason.decode()
-    |> IO.inspect(label: "**************")
+    |> Jason.decode!(keys: :atoms)
+    |> IO.inspect(label: "************** \n")
 
     {:ok, state}
   end
@@ -29,7 +28,7 @@ defmodule Tina.Stream do
     {:ok, authentication} =
       %{
         action: "authenticate",
-        data: %{key_id: @apca_api_key_id, secret_key: @apca_api_secret_key}
+        data: %{key_id: Alpaca.api_key_id(), secret_key: Alpaca.api_secret_key()}
       }
       |> Jason.encode()
 
