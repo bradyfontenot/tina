@@ -1,4 +1,25 @@
 defmodule Tina.Position do
+  @moduledoc """
+  Provides information about an account’s current open positions.
+  which will be updated live as price information is updated.
+  Once a position is closed, it will no longer be queryable through this API
+
+  Available functions:
+  `get_open/0`
+  `get_by_symbol/1`
+  `close_by_symbol/1`
+  `close_all/0`
+
+  Alpaca Markets Positions Documentation:
+  https://alpaca.markets/docs/api-documentation/api-v2/positions/
+  """
+
+  # TODO for initial release:
+  # Add return value desc to docmodule above
+  # write tests
+  # add typescec for struct
+  # confirm and define returns in docs for all funcs(especially cancel/cancel_all)
+
   alias Tina.Alpaca
   alias Tina.Order
 
@@ -51,7 +72,7 @@ defmodule Tina.Position do
   end
 
   @doc """
-    accepts symbol or asset_id
+  get_by_symbol/1 returns positions matching supplied symbol
   """
   @spec get_by_symbol(String.t()) :: tuple()
   def get_by_symbol(symbol) do
@@ -59,14 +80,38 @@ defmodule Tina.Position do
     Alpaca.get_data(path, struct(Tina.Position))
   end
 
-  @spec close_all() :: tuple()
-  def close_all() do
-    Alpaca.delete_data(@endpoint, struct(Order))
+  @doc """
+  get_by_id/1 returns positions matching supplied asset_id
+  """
+  @spec get_by_id(String.t()) :: tuple()
+  def get_by_id(id) do
+    path = "#{@endpoint}/#{id}"
+    Alpaca.get_data(path, struct(Tina.Position))
   end
 
-  @spec close_by_symbol(Strint.t()) :: tuple()
+  @doc """
+  close_by_symbol/1 closes all positions matching supplied symbol
+  """
+  @spec close_by_symbol(String.t()) :: tuple()
   def close_by_symbol(symbol) do
     path = "#{@endpoint}/#{symbol}"
     Alpaca.delete(path)
+  end
+
+  @doc """
+  close_by_id/1 closes all positions matching supplied asset id
+  """
+  @spec close_by_id(String.t()) :: tuple()
+  def close_by_id(id) do
+    path = "#{@endpoint}/#{id}"
+    Alpaca.delete(path)
+  end
+
+  @doc """
+  close_all/1 closes all positions
+  """
+  @spec close_all() :: tuple()
+  def close_all() do
+    Alpaca.delete_data(@endpoint, struct(Order))
   end
 end
