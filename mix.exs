@@ -21,7 +21,6 @@ defmodule Tina.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:hackney, "~> 1.16.0"},
       {:jason, ">= 1.0.0"},
@@ -29,4 +28,13 @@ defmodule Tina.MixProject do
       {:websockex, "~> 0.4.2"}
     ]
   end
+
+  # defp package do
+  #   [
+  #     maintainers: ["Brady Fontenot"],
+  #     files: ["lib/**/*.ex", "mix*", "*.md"],
+  #     licenses: ["MIT"],
+  #     links: %{"GitHub" => "https://github.com/bradyfontenot/tina"}
+  #   ]
+  # end
 end
