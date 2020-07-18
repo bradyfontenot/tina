@@ -24,10 +24,11 @@ apca_api_stream_url =
     environment variable APCA_API_STREAM_URL is missing.
     """
 
-config :tina, apca_api_key_id: apca_api_key_id
-config :tina, apca_api_secret_key: apca_api_secret_key
-config :tina, apca_api_base_url: apca_api_base_url
-config :tina, apca_api_stream_url: apca_api_stream_url
+config :tina,
+  apca_api_key_id: apca_api_key_id,
+  apca_api_secret_key: apca_api_secret_key,
+  apca_api_base_url: apca_api_base_url,
+  apca_api_stream_url: apca_api_stream_url
 
 # Use Hackney as default adapter for Tesla
 config :tesla, adapter: Tesla.Adapter.Hackney
