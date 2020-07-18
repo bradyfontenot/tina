@@ -1,12 +1,12 @@
 defmodule Tina.Asset do
   @moduledoc """
-Serves as the master list of assets available for trade and data consumption
-from Alpaca. Assets are sorted by asset class, exchange and symbol.
-Some assets are only available for data consumption via Polygon,
-and are not tradable with Alpaca. These assets will be marked with the
-flag tradable=false
+  Serves as the master list of assets available for trade and data consumption
+  from Alpaca. Assets are sorted by asset class, exchange and symbol.
+  Some assets are only available for data consumption via Polygon,
+  and are not tradable with Alpaca. These assets will be marked with the
+  flag tradable=false
 
-Available functions:
+  Available functions:
   `list/0`
   `filtered_by/1`
   `get_by_id/1`
