@@ -2,6 +2,7 @@ defmodule Tina.Alpaca do
   use Tesla
   alias Tina.Helpers
 
+  # TO BE DELETED. will use private funcs below instead
   @apca_api_key_id Application.get_env(:tina, :apca_api_key_id)
   @apca_api_secret_key Application.get_env(:tina, :apca_api_secret_key)
   @apca_api_base_url Application.get_env(:tina, :apca_api_base_url)
@@ -15,24 +16,20 @@ defmodule Tina.Alpaca do
     {"APCA-API-SECRET-KEY", @apca_api_secret_key}
   ])
 
-  def api_key_id(),
-    do: Application.get_env(:tina, :apca_api_key_id)
+  defp api_key_id(),
+    do: Application.fetch_env!(:tina, :apca_api_key_id)
 
-  def api_secret_key(),
-    do: Application.get_env(:tina, :apca_api_secret_key)
+  defp api_secret_key(),
+    do: Application.fetch_env!(:tina, :apca_api_secret_key)
 
-  def api_v2_url(),
+  defp api_v2_url(),
     do: "https://paper-api.alpaca.markets/v2/"
 
-  def api_data_url(),
+  defp api_data_url(),
     do: "https://data.alpaca.markets/v1"
 
-  def api_stream_url(),
+  defp api_stream_url(),
     do: "wss://data.alpaca.markets/stream"
-
-  # TO BE REMOVED!
-  # @spec extract_key(:atom) :: :atom
-  # defp extract_key(key), do: key
 
   # Temporary for inspecting response objects / debugging
   # def get_data(endpoint, query) do
