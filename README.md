@@ -1,9 +1,11 @@
-# Tina
+# Tina - Work in Progress. still under development
 
-**ALPHA STAGE**
+[Project Board](https://github.com/users/bradyfontenot/projects/4)
+
+~~**ALPHA STAGE**
 This is an early version of an elixir api wrapper for Alpaca Markets. I suggest
 using it extensively in a paper trading environment before trusting it for live
-trading.  At this point it has not been stress tested.
+trading.  At this point it has not been stress tested.~~
 
 Implements all endpoints, alpaca streaming data, and polygon data
 along with a few additional conveniences.
