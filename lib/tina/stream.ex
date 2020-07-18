@@ -4,9 +4,13 @@ defmodule Tina.Stream do
 
   Available functions:
   open_stream/0
+  subscribe/1
+  unsubscribe/1
+  sub_acct_updates/0
+  sub_trade_updates/0
 
 
-  Callback functions from Websockex
+  Callbacks from Websockex
   `handle_connect/2`
   `handle_frame/2`
 
@@ -17,9 +21,9 @@ defmodule Tina.Stream do
   """
 
   # TODO for initial release:
-  # Can create/* be consolidated?
   # Add return value desc to docmodule above
   # write tests
+  # terminate socket
 
 
   use WebSockex
@@ -80,20 +84,18 @@ defmodule Tina.Stream do
     WebSockex.send_frame(get_pid(), {:text, channels})
   end
 
-  def sub_acct_updates() do
-    subscribe(["account_updates"])
-  end
+  # TEMPORARY - SANDBOX
+  # def sub_acct_updates() do
+  #   subscribe(["account_updates"])
+  # end
 
-  def sub_trade_updates() do
-    {:ok, pid} = WebSockex.start_link("wss://paper-api.alpaca.markets/stream", __MODULE__, :state)
-    authenticate(pid)
-    Process.register(pid, Tina.Stream)
-    subscribe(["trade_updates"])
-  end
+  # def sub_trade_updates() do
+  #   {:ok, pid} = WebSockex.start_link("wss://paper-api.alpaca.markets/stream", __MODULE__, :state)
+  #   authenticate(pid)
+  #   Process.register(pid, Tina.Stream)
+  #   subscribe(["trade_updates"])
+  # end
 
-  def terminate() do
-    WebSockex.handle_terminate_close(:poop, get_pid(), :debug, :state)
-  end
 
   defp get_pid(), do: Process.whereis(Tina.Stream)
 end
