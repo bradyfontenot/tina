@@ -22,7 +22,6 @@ defmodule Tina.Watchlist do
   # Can create/* be consolidated?
   # Add return value desc to docmodule above
   # write tests
-  # add typescec for struct
 
   alias Tina.Alpaca
 
