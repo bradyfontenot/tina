@@ -1,4 +1,27 @@
 defmodule Tina.Stream do
+  @moduledoc """
+  Provides streaming trade and quote data via Alpaca's data stream
+
+  Available functions:
+  open_stream/0
+
+
+  Callback functions from Websockex
+  `handle_connect/2`
+  `handle_frame/2`
+
+
+
+  Alpaca Market Data Streaming Documentation:
+  https://alpaca.markets/docs/api-documentation/api-v2/market-data/streaming/
+  """
+
+  # TODO for initial release:
+  # Can create/* be consolidated?
+  # Add return value desc to docmodule above
+  # write tests
+
+
   use WebSockex
   alias Tina.Alpaca
 
@@ -24,7 +47,7 @@ defmodule Tina.Stream do
     {:ok, state}
   end
 
-  def authenticate(pid) do
+  defp authenticate(pid) do
     {:ok, authentication} =
       %{
         action: "authenticate",
@@ -57,19 +80,22 @@ defmodule Tina.Stream do
     WebSockex.send_frame(get_pid(), {:text, channels})
   end
 
-  def sub_trade_updates() do
-    {:ok, channel} =
-      %{
-        action: "listen",
-        data: %{streams: ["channel_list"]}
-      }
-      |> Jason.encode()
+  def sub_acct_updates() do
+    subscribe(["account_updates"])
+  end
 
-    WebSockex.send_frame(get_pid(), {:text, channel})
+  def sub_trade_updates() do
+    {:ok, pid} = WebSockex.start_link("wss://paper-api.alpaca.markets/stream", __MODULE__, :state)
+    authenticate(pid)
+    Process.register(pid, Tina.Stream)
+    subscribe(["trade_updates"])
+  end
+
+  def terminate() do
+    WebSockex.handle_terminate_close(:poop, get_pid(), :debug, :state)
   end
 
   defp get_pid(), do: Process.whereis(Tina.Stream)
-
 end
 
 # TODO
