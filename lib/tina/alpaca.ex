@@ -16,6 +16,7 @@ defmodule Tina.Alpaca do
     {"APCA-API-SECRET-KEY", @apca_api_secret_key}
   ])
 
+  # defp's will replace above module attributes
   defp api_key_id(),
     do: Application.fetch_env!(:tina, :apca_api_key_id)
 
