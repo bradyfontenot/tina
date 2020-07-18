@@ -56,7 +56,7 @@ defmodule Tina.Account.Portfolio.History do
       :date_end <string> "YYYY-MM-DD"
       :extended_hours <bool>
   """
-  @spec filtered_by([key: String.t() | boolean()]) :: tuple()
+  @spec filtered_by(key: String.t() | boolean()) :: tuple()
   def filtered_by(query \\ []) do
     Alpaca.get_data(@endpoint, query, struct(Tina.Account.Portfolio.History))
   end

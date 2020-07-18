@@ -1,8 +1,8 @@
 defmodule Tina.Account do
   @moduledoc """
-Returns important information related to an account,
-including account status, funds available for trade, funds available
-for withdrawal, and various flags relevant to an account’s ability to trade.
+  Returns important information related to an account,
+  including account status, funds available for trade, funds available
+  for withdrawal, and various flags relevant to an account’s ability to trade.
 
   Available functions:
   `get/0`
@@ -84,5 +84,4 @@ for withdrawal, and various flags relevant to an account’s ability to trade.
   def get() do
     Alpaca.get_data(@endpoint, struct(Tina.Account))
   end
-
 end

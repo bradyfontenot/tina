@@ -25,7 +25,6 @@ defmodule Tina.Stream do
   # write tests
   # terminate socket
 
-
   use WebSockex
   alias Tina.Alpaca
 
@@ -95,7 +94,6 @@ defmodule Tina.Stream do
   #   Process.register(pid, Tina.Stream)
   #   subscribe(["trade_updates"])
   # end
-
 
   defp get_pid(), do: Process.whereis(Tina.Stream)
 end

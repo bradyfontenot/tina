@@ -113,7 +113,7 @@ defmodule Tina.Order do
   `:direction` <string>
   `:nested` <boolean>
   """
-  @spec filtered_by([key: any()]) :: tuple()
+  @spec filtered_by(key: any()) :: tuple()
   def filtered_by(query) do
     Alpaca.get_data(@endpoint, query, struct(Tina.Order))
   end
