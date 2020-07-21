@@ -2,34 +2,27 @@ defmodule Tina.Alpaca do
   use Tesla
   alias Tina.Helpers
 
-  # TO BE DELETED. will use private funcs below instead
-  @apca_api_key_id Application.get_env(:tina, :apca_api_key_id)
-  @apca_api_secret_key Application.get_env(:tina, :apca_api_secret_key)
-  @apca_api_base_url Application.get_env(:tina, :apca_api_base_url)
-  @apca_api_data_url Application.get_env(:tina, :apca_api_data_url)
-
   plug(Tesla.Middleware.JSON, decode: &Jason.decode/1, engine_opts: [keys: :atoms])
-  plug(Tesla.Middleware.BaseUrl, @apca_api_base_url)
+  plug(Tesla.Middleware.BaseUrl, api_v2_url())
 
   plug(Tesla.Middleware.Headers, [
-    {"APCA-API-KEY-ID", @apca_api_key_id},
-    {"APCA-API-SECRET-KEY", @apca_api_secret_key}
+    {"APCA-API-KEY-ID", api_key_id()},
+    {"APCA-API-SECRET-KEY", api_secret_key()}
   ])
 
-  # defp's will replace above module attributes
-  defp api_key_id(),
+  def api_key_id(),
     do: Application.fetch_env!(:tina, :apca_api_key_id)
 
-  defp api_secret_key(),
+  def api_secret_key(),
     do: Application.fetch_env!(:tina, :apca_api_secret_key)
 
-  defp api_v2_url(),
+  def api_v2_url(),
     do: "https://paper-api.alpaca.markets/v2/"
 
-  defp api_data_url(),
+  def api_data_url(),
     do: "https://data.alpaca.markets/v1"
 
-  defp api_stream_url(),
+  def api_stream_url(),
     do: "wss://data.alpaca.markets/stream"
 
   # Temporary for inspecting response objects / debugging
