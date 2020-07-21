@@ -35,6 +35,16 @@ defmodule Tina.Stream do
     pid
   end
 
+  def close_stream() do
+    case Process.exit(get_pid(), :kill) do
+      true ->
+        {:ok, :killed}
+
+      false ->
+        {error, :alive}
+    end
+  end
+
   @impl true
   def handle_connect(_conn, state) do
     IO.puts("Connected!")
